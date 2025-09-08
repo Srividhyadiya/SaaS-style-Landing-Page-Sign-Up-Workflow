@@ -3,7 +3,7 @@ This project is a modern SaaS-style landing page with a sign-up workflow, design
 
 ![image alt](https://github.com/Srividhyadiya/SaaS-style-Landing-Page-Sign-Up-Workflow/blob/main/Screenshot%20(480).png?raw=true)
 ![image alt](https://github.com/Srividhyadiya/SaaS-style-Landing-Page-Sign-Up-Workflow/blob/main/Screenshot%20(481).png?raw=true)
-![image alt]()
+![image alt](https://github.com/Srividhyadiya/SaaS-style-Landing-Page-Sign-Up-Workflow/blob/main/Screenshot%20(482).png?raw=true)
 ![image alt]()
 ![image alt]()
 ![image alt]()
