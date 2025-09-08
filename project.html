@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Launchpad SaaS - The Future of Productivity</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+            color: #1f2937;
+            overflow-x: hidden; /* Prevents horizontal scroll from animations */
+        }
+        .gradient-bg {
+            background-image: linear-gradient(to right, #6366f1, #8b5cf6, #d946ef);
+        }
+        .form-input {
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        .form-input:focus {
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.5);
+            outline: none;
+        }
+
+        /* Hero section background animation */
+        @keyframes bg-pan {
+            from { background-position: 0% center; }
+            to { background-position: -200% center; }
+        }
+
+        .hero-bg-animation {
+            background-size: 200% 100%;
+            animation: bg-pan 30s linear infinite;
+        }
+
+        /* Fade-in and slide-up animations for new sections */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .fade-in-up.animate {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Pulsating button animation */
+        .pulsate {
+            animation: pulsate 2s infinite cubic-bezier(0.4, 0, 0.6, 1);
+        }
+        @keyframes pulsate {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        /* Chatbot button and modal */
+        #chatbot-toggle {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 100;
+        }
+        #chatbot-modal {
+            position: fixed;
+            bottom: 6rem;
+            right: 2rem;
+            z-index: 100;
+        }
+
+        /* Canvas styling */
+        #demo-canvas {
+            display: block;
+            border-radius: 1.5rem; /* Match the rounded-3xl of the parent */
+        }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col items-center justify-center py-12">
+
+    <!-- Navigation Bar -->
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-white bg-opacity-80 backdrop-blur-md shadow-sm p-4">
+        <div class="container mx-auto flex justify-between items-center px-4">
+            <a href="#" class="text-xl font-bold gradient-bg text-transparent bg-clip-text">Launchpad</a>
+            <div class="hidden sm:flex space-x-6 text-gray-600 font-medium">
+                <a href="#features" class="hover:text-purple-600 transition-colors">Features</a>
+                <a href="#pricing" class="hover:text-purple-600 transition-colors">Pricing</a>
+                <a href="#testimonials" class="hover:text-purple-600 transition-colors">Testimonials</a>
+                <a href="#contact" class="hover:text-purple-600 transition-colors">Contact</a>
+            </div>
+            <a href="#signup" class="py-2 px-4 rounded-xl text-sm font-bold text-white gradient-bg hover:scale-105 transition-transform">Sign Up</a>
+        </div>
+    </nav>
+
+    <!-- Main Landing Page Section -->
+    <div id="landing-section" class="flex flex-col items-center text-center max-w-4xl w-full px-6 pt-24">
+        <header class="mb-12">
+            <h1 id="dynamic-headline" class="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-gray-900 leading-tight">
+                Unlock Your Potential with <span class="gradient-bg text-transparent bg-clip-text hero-bg-animation">Launchpad</span>
+            </h1>
+            <p id="dynamic-subheadline" class="mt-4 text-lg sm:text-xl text-gray-600">
+                The all-in-one productivity suite designed to simplify your workflow and boost your efficiency.
+            </p>
+        </header>
+
+        <section id="signup" class="w-full mb-12 fade-in-up">
+            <div class="bg-white rounded-3xl p-8 sm:p-12 shadow-2xl border border-gray-200 transform hover:scale-105 transition-transform duration-300">
+                <h2 class="text-3xl font-semibold text-gray-800 mb-6">Join the Revolution</h2>
+                <form id="signup-form" class="space-y-6">
+                    <div>
+                        <input type="text" id="name" name="name" placeholder="Full Name" required
+                            class="form-input w-full px-6 py-4 border border-gray-300 rounded-xl text-gray-800 focus:ring-4 focus:ring-indigo-500 focus:border-indigo-500">
+                    </div>
+                    <div>
+                        <input type="email" id="email" name="email" placeholder="Your Email Address" required
+                            class="form-input w-full px-6 py-4 border border-gray-300 rounded-xl text-gray-800 focus:ring-4 focus:ring-indigo-500 focus:border-indigo-500">
+                    </div>
+                    <div>
+                        <button type="submit"
+                            class="w-full text-white font-bold py-4 px-6 rounded-xl gradient-bg transition-transform duration-300 hover:scale-105 hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-purple-500 focus:ring-opacity-50 pulsate">
+                            Get Started for Free
+                        </button>
+                    </div>
+                    <p id="form-message" class="text-sm font-medium text-center transition-all duration-300 opacity-0"></p>
+                </form>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section id="features" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 w-full mt-12 fade-in-up">
+            <!-- Feature 1 -->
+            <div class="bg-white p-8 rounded-3xl shadow-lg border border-gray-200 hover:shadow-xl transition-shadow duration-300">
+                <div class="flex items-center justify-center w-12 h-12 rounded-full gradient-bg text-white mb-4">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.162a4.5 4.5 0 011.13 1.897A4.5 4.5 0 0116.5 18h-1.39a1.5 1.5 0 00-.474.195 1.5 1.5 0 00-.733.867 1.5 1.5 0 00-.317.938v.023c.002.508.01 1.015.023 1.523.003.504-.002 1.008-.023 1.512a1.5 1.5 0 01-.194.474 1.5 1.5 0 01-.867.733 1.5 1.5 0 01-.938.317c-.508.002-1.015.01-1.523.023-.504.003-1.008-.002-1.512-.023a1.5 1.5 0 01-.474-.194 1.5 1.5 0 01-.733-.867 1.5 1.5 0 01-.317-.938c-.002-.508-.01-1.015-.023-1.523-.003-.504.002-1.008.023-1.512a1.5 1.5 0 01.194-.474 1.5 1.5 0 01.867-.733 1.5 1.5 0 01.938-.317c.508-.002 1.015-.01 1.523-.023.504-.003 1.008.002 1.512.023z"></path>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-900 mb-2">Automated Workflows</h3>
+                <p class="text-gray-600">Streamline repetitive tasks and focus on what truly matters. Our smart automation handles the rest.</p>
+            </div>
+            <!-- Feature 2 -->
+            <div class="bg-white p-8 rounded-3xl shadow-lg border border-gray-200 hover:shadow-xl transition-shadow duration-300">
+                <div class="flex items-center justify-center w-12 h-12 rounded-full gradient-bg text-white mb-4">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-900 mb-2">Real-Time Collaboration</h3>
+                <p class="text-gray-600">Work together seamlessly with your team, no matter where you are in the world. Real-time updates and shared spaces.</p>
+            </div>
+            <!-- Feature 3 -->
+            <div class="bg-white p-8 rounded-3xl shadow-lg border border-gray-200 hover:shadow-xl transition-shadow duration-300">
+                <div class="flex items-center justify-center w-12 h-12 rounded-full gradient-bg text-white mb-4">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-900 mb-2">Insightful Analytics</h3>
+                <p class="text-gray-600">Make data-driven decisions with powerful analytics that give you a clear overview of your performance.</p>
+            </div>
+        </section>
+
+        <!-- Product Demo Section -->
+        <section id="demo-section" class="w-full py-24 fade-in-up">
+            <h2 class="text-4xl font-bold text-center text-gray-900 mb-12">See Launchpad in Action</h2>
+            <div class="bg-gray-800 rounded-3xl p-4 sm:p-8 shadow-2xl border border-gray-700 aspect-video overflow-hidden">
+                <canvas id="demo-canvas" class="w-full h-full"></canvas>
+            </div>
+        </section>
+
+        <!-- Client Logos Section for Social Proof -->
+        <section id="client-logos" class="w-full py-12 fade-in-up">
+            <h2 class="text-2xl font-bold text-center text-gray-600 mb-8">Trusted by Teams at:</h2>
+            <div class="flex flex-wrap justify-center items-center gap-8">
+                <img src="https://logo.clearbit.com/google.com" alt="Google" class="h-8 md:h-10 opacity-70 hover:opacity-100 transition-opacity">
+                <img src="https://logo.clearbit.com/slack.com" alt="Slack" class="h-8 md:h-10 opacity-70 hover:opacity-100 transition-opacity">
+                <img src="https://logo.clearbit.com/notion.so" alt="Notion" class="h-8 md:h-10 opacity-70 hover:opacity-100 transition-opacity">
+                <img src="https://logo.clearbit.com/figma.com" alt="Figma" class="h-8 md:h-10 opacity-70 hover:opacity-100 transition-opacity">
+                <img src="https://logo.clearbit.com/asana.com" alt="Asana" class="h-8 md:h-10 opacity-70 hover:opacity-100 transition-opacity">
+            </div>
+        </section>
+
+        <!-- Pricing Section -->
+        <section id="pricing" class="w-full py-24 fade-in-up">
+            <h2 class="text-4xl font-bold text-center text-gray-900 mb-12">Flexible Plans for Every Team</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 px-4">
+                <!-- Pricing Card 1 -->
+                <div class="bg-white rounded-3xl p-8 shadow-lg border-2 border-transparent transition-transform hover:scale-105 duration-300">
+                    <h3 class="text-2xl font-semibold text-gray-800 mb-2">Starter</h3>
+                    <p class="text-gray-500 mb-4">For individuals and small teams.</p>
+                    <p class="text-5xl font-bold text-gray-900 mb-6">$0<span class="text-lg font-medium text-gray-500">/mo</span></p>
+                    <ul class="space-y-3 text-left text-gray-600 mb-8">
+                        <li class="flex items-center space-x-2">
+                            <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span>Up to 5 Projects</span>
+                        </li>
+                        <li class="flex items-center space-x-2">
+                            <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span>Basic analytics</span>
+                        </li>
+                    </ul>
+                    <a href="#signup" class="w-full block text-center text-white font-bold py-3 px-6 rounded-xl gradient-bg hover:scale-105 transition-transform">Start Free</a>
+                </div>
+                <!-- Pricing Card 2 (Popular) -->
+                <div class="bg-white rounded-3xl p-8 shadow-lg border-2 border-purple-500 transition-transform hover:scale-105 duration-300 relative">
+                    <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-purple-500 text-white text-xs font-bold px-3 py-1 rounded-full">Most Popular</div>
+                    <h3 class="text-2xl font-semibold text-gray-800 mb-2">Pro</h3>
+                    <p class="text-gray-500 mb-4">For growing teams and businesses.</p>
+                    <p class="text-5xl font-bold text-gray-900 mb-6">$29<span class="text-lg font-medium text-gray-500">/mo</span></p>
+                    <ul class="space-y-3 text-left text-gray-600 mb-8">
+                        <li class="flex items-center space-x-2">
+                            <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span>Unlimited Projects</span>
+                        </li>
+                        <li class="flex items-center space-x-2">
+                            <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span>Advanced analytics</span>
+                        </li>
+                        <li class="flex items-center space-x-2">
+                            <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span>Priority support</span>
+                        </li>
+                    </ul>
+                    <a href="#signup" class="w-full block text-center text-white font-bold py-3 px-6 rounded-xl gradient-bg hover:scale-105 transition-transform">Get Started</a>
+                </div>
+                <!-- Pricing Card 3 -->
+                <div class="bg-white rounded-3xl p-8 shadow-lg border-2 border-transparent transition-transform hover:scale-105 duration-300">
+                    <h3 class="text-2xl font-semibold text-gray-800 mb-2">Enterprise</h3>
+                    <p class="text-gray-500 mb-4">For large organizations.</p>
+                    <p class="text-5xl font-bold text-gray-900 mb-6">Custom</p>
+                    <ul class="space-y-3 text-left text-gray-600 mb-8">
+                        <li class="flex items-center space-x-2">
+                            <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span>Everything in Pro</span>
+                        </li>
+                        <li class="flex items-center space-x-2">
+                            <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span>Dedicated account manager</span>
+                        </li>
+                        <li class="flex items-center space-x-2">
+                            <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span>SLA and uptime guarantees</span>
+                        </li>
+                    </ul>
+                    <a href="#contact" class="w-full block text-center text-white font-bold py-3 px-6 rounded-xl gradient-bg hover:scale-105 transition-transform">Contact Us</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- A/B Testing Section -->
+        <section id="ab-testing" class="w-full py-24 fade-in-up">
+            <h2 class="text-4xl font-bold text-center text-gray-900 mb-12">See our A/B test in action</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 px-4">
+                <!-- A/B Test Variant A -->
+                <div class="bg-white rounded-3xl p-8 shadow-lg border border-gray-200 text-center">
+                    <h3 class="text-2xl font-bold text-gray-900 mb-4">Variant A: Start your free trial</h3>
+                    <p class="text-gray-600 mb-6">Experience our full platform with no commitment.</p>
+                    <a href="#signup" class="w-full text-white font-bold py-4 px-6 rounded-xl bg-purple-600 hover:bg-purple-700 transition-colors">Start Free Trial</a>
+                </div>
+                <!-- A/B Test Variant B -->
+                <div class="bg-white rounded-3xl p-8 shadow-lg border border-gray-200 text-center">
+                    <h3 class="text-2xl font-bold text-gray-900 mb-4">Variant B: Sign up and get started!</h3>
+                    <p class="text-gray-600 mb-6">Just enter your details and we'll send you an email to get you started.</p>
+                    <a href="#signup" class="w-full text-white font-bold py-4 px-6 rounded-xl bg-indigo-600 hover:bg-indigo-700 transition-colors">Sign Up Now</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials Section -->
+        <section id="testimonials" class="w-full py-24 fade-in-up">
+            <h2 class="text-4xl font-bold text-center text-gray-900 mb-12">What Our Users Say</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 px-4">
+                <!-- Testimonial Card 1 -->
+                <div class="bg-white p-8 rounded-3xl shadow-lg border border-gray-200">
+                    <p class="text-lg text-gray-600 italic mb-4">"Launchpad has completely transformed how our team collaborates. The real-time features and simple interface are a game-changer."</p>
+                    <div class="flex items-center">
+                        <img src="https://placehold.co/60x60/f3f4f6/1f2937?text=JO" alt="John Doe" class="w-12 h-12 rounded-full mr-4">
+                        <div>
+                            <p class="font-semibold text-gray-900">John Doe</p>
+                            <p class="text-sm text-gray-500">CEO, Innovate Corp</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Testimonial Card 2 -->
+                <div class="bg-white p-8 rounded-3xl shadow-lg border border-gray-200">
+                    <p class="text-lg text-gray-600 italic mb-4">"I love the intuitive design and powerful automation. I've saved countless hours a week since I started using this product."</p>
+                    <div class="flex items-center">
+                        <img src="https://placehold.co/60x60/f3f4f6/1f2937?text=JA" alt="Jane Smith" class="w-12 h-12 rounded-full mr-4">
+                        <div>
+                            <p class="font-semibold text-gray-900">Jane Smith</p>
+                            <p class="text-sm text-gray-500">Freelance Developer</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Final CTA Section -->
+        <section class="w-full py-24 fade-in-up">
+            <div class="gradient-bg rounded-3xl p-12 text-center text-white shadow-2xl">
+                <h2 class="text-3xl font-bold mb-4">Ready to Boost Your Productivity?</h2>
+                <p class="text-lg font-medium mb-8">Join thousands of happy users today and get started for free.</p>
+                <a href="#signup" class="inline-block text-white font-bold py-4 px-8 rounded-full bg-white bg-opacity-20 backdrop-blur-sm hover:bg-opacity-30 transition-colors pulsate">Sign Up Now</a>
+            </div>
+        </section>
+    </div>
+
+    <!-- Contact Section -->
+    <div id="contact-section" class="hidden flex-col items-center text-center max-w-4xl w-full px-6 pt-24">
+        <div id="contact-form-container" class="w-full mb-12 fade-in-up">
+            <div class="bg-white rounded-3xl p-8 sm:p-12 shadow-2xl border border-gray-200">
+                <h2 class="text-3xl font-semibold text-gray-800 mb-6">Contact Us</h2>
+                <p class="text-gray-600 mb-8">Have a question? We'd love to hear from you. Fill out the form below and we'll get back to you as soon as possible.</p>
+                <form id="contact-form" class="space-y-6">
+                    <div>
+                        <input type="text" id="contact-name" name="name" placeholder="Full Name" required
+                            class="form-input w-full px-6 py-4 border border-gray-300 rounded-xl text-gray-800 focus:ring-4 focus:ring-indigo-500 focus:border-indigo-500">
+                    </div>
+                    <div>
+                        <input type="email" id="contact-email" name="email" placeholder="Your Email Address" required
+                            class="form-input w-full px-6 py-4 border border-gray-300 rounded-xl text-gray-800 focus:ring-4 focus:ring-indigo-500 focus:border-indigo-500">
+                    </div>
+                    <div>
+                        <textarea id="contact-message" name="message" placeholder="Your Message" rows="4" required
+                            class="form-input w-full px-6 py-4 border border-gray-300 rounded-xl text-gray-800 focus:ring-4 focus:ring-indigo-500 focus:border-indigo-500"></textarea>
+                    </div>
+                    <div>
+                        <button type="submit"
+                            class="w-full text-white font-bold py-4 px-6 rounded-xl gradient-bg transition-transform duration-300 hover:scale-105 hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-purple-500 focus:ring-opacity-50">
+                            Send Message
+                        </button>
+                    </div>
+                    <p id="contact-form-message" class="text-sm font-medium text-center transition-all duration-300 opacity-0"></p>
+                </form>
+            </div>
+        </div>
+        <div id="contact-thank-you" class="hidden w-full">
+            <div class="bg-white rounded-3xl p-8 sm:p-12 shadow-2xl border border-gray-200">
+                <svg class="w-24 h-24 text-green-500 mx-auto mb-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">Message Sent!</h2>
+                <p class="text-lg text-gray-600">
+                    Thank you for reaching out. We've received your message and will get back to you shortly.
+                </p>
+                <button id="contact-go-back-btn" class="mt-8 text-white font-bold py-3 px-6 rounded-xl gradient-bg transition-transform duration-300 hover:scale-105 hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-purple-500 focus:ring-opacity-50">
+                    Back to Landing Page
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dashboard Section -->
+    <div id="dashboard-section" class="hidden flex-col items-center max-w-5xl w-full px-6 py-12">
+        <div class="bg-white rounded-3xl p-8 sm:p-12 shadow-2xl border border-gray-200 w-full">
+            <h2 class="text-3xl font-bold text-gray-900 mb-4">Welcome, <span id="user-name" class="gradient-bg text-transparent bg-clip-text">User</span>!</h2>
+            <p class="text-gray-600 text-lg mb-8">Here's a quick overview of your projects and tasks.</p>
+
+            <!-- Dashboard Widgets -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <div class="bg-purple-100 p-6 rounded-2xl">
+                    <h3 class="text-xl font-bold text-purple-800">12</h3>
+                    <p class="text-purple-600">Projects Completed</p>
+                </div>
+                <div class="bg-indigo-100 p-6 rounded-2xl">
+                    <h3 class="text-xl font-bold text-indigo-800">5</h3>
+                    <p class="text-indigo-600">Tasks Due Today</p>
+                </div>
+                <div class="bg-pink-100 p-6 rounded-2xl">
+                    <h3 class="text-xl font-bold text-pink-800">95%</h3>
+                    <p class="text-pink-600">Productivity Score</p>
+                </div>
+            </div>
+
+            <!-- Recent Activity -->
+            <div class="mb-8">
+                <h3 class="text-2xl font-semibold text-gray-800 mb-4">Recent Activity</h3>
+                <ul class="space-y-3 text-left text-gray-600">
+                    <li class="p-4 bg-gray-50 rounded-xl flex items-center space-x-3">
+                        <span class="text-gray-400">∙</span>
+                        <span>Completed task "Design new logo" in **Project Falcon**.</span>
+                    </li>
+                    <li class="p-4 bg-gray-50 rounded-xl flex items-center space-x-3">
+                        <span class="text-gray-400">∙</span>
+                        <span>Added new team member to **Project Titan**.</span>
+                    </li>
+                    <li class="p-4 bg-gray-50 rounded-xl flex items-center space-x-3">
+                        <span class="text-gray-400">∙</span>
+                        <span>Created a new project plan for **Marketing Campaign**.</span>
+                    </li>
+                </ul>
+            </div>
+
+            <button id="logout-btn" class="w-full text-white font-bold py-3 px-6 rounded-xl bg-gray-500 hover:bg-gray-600 transition-colors">
+                Log Out
+            </button>
+        </div>
+    </div>
+
+    <!-- Chatbot Button -->
+    <button id="chatbot-toggle" class="bg-purple-600 hover:bg-purple-700 text-white p-4 rounded-full shadow-lg transition-transform hover:scale-110 focus:outline-none focus:ring-4 focus:ring-purple-500 focus:ring-opacity-50">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+        </svg>
+    </button>
+    <!-- Chatbot Modal -->
+    <div id="chatbot-modal" class="hidden w-80 h-96 bg-white rounded-xl shadow-2xl flex flex-col overflow-hidden">
+        <div class="bg-purple-600 text-white p-4 flex justify-between items-center">
+            <h3 class="font-semibold">Launchpad Assistant</h3>
+            <button id="chatbot-close" class="hover:text-gray-200">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                </svg>
+            </button>
+        </div>
+        <div id="chatbot-messages" class="flex-1 p-4 overflow-y-auto space-y-4 text-sm text-gray-700">
+            <!-- Messages will be injected here -->
+            <div class="flex items-start">
+                <div class="bg-gray-200 text-gray-800 p-3 rounded-lg max-w-[75%]">
+                    <p>Hello! I'm your AI Launchpad assistant. How can I help you today? Ask me about our features, pricing, or anything else about Launchpad.</p>
+                </div>
+            </div>
+        </div>
+        <div class="p-4 bg-gray-50 border-t border-gray-200 flex space-x-2">
+            <input id="user-input" type="text" placeholder="Type your message..." class="w-full p-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-500">
+            <button id="send-button" class="px-4 py-2 rounded-lg gradient-bg text-white font-bold text-sm hover:scale-105 transition-transform">Send</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const landingSection = document.getElementById('landing-section');
+            const dashboardSection = document.getElementById('dashboard-section');
+            const contactSection = document.getElementById('contact-section');
+            const signupForm = document.getElementById('signup-form');
+            const contactForm = document.getElementById('contact-form');
+            const userNameSpan = document.getElementById('user-name');
+            const formMessage = document.getElementById('form-message');
+            const contactFormMessage = document.getElementById('contact-form-message');
+            const logoutButton = document.getElementById('logout-btn');
+            const contactGoBackButton = document.getElementById('contact-go-back-btn');
+            const dynamicHeadline = document.getElementById('dynamic-headline');
+            const dynamicSubheadline = document.getElementById('dynamic-subheadline');
+            const chatbotToggle = document.getElementById('chatbot-toggle');
+            const chatbotModal = document.getElementById('chatbot-modal');
+            const chatbotClose = document.getElementById('chatbot-close');
+            const userInput = document.getElementById('user-input');
+            const sendButton = document.getElementById('send-button');
+            const chatbotMessages = document.getElementById('chatbot-messages');
+
+            // --- Navigation Logic ---
+            const showSection = (sectionToShow) => {
+                const sections = [landingSection, dashboardSection, contactSection];
+                sections.forEach(section => {
+                    section.classList.add('hidden');
+                    section.classList.remove('flex-col');
+                });
+                sectionToShow.classList.remove('hidden');
+                sectionToShow.classList.add('flex-col');
+            };
+
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href').substring(1);
+                    if (targetId === 'signup' || targetId === 'features' || targetId === 'pricing' || targetId === 'testimonials') {
+                        showSection(landingSection);
+                        document.getElementById(targetId).scrollIntoView({ behavior: 'smooth' });
+                    } else if (targetId === 'contact') {
+                        showSection(contactSection);
+                    }
+                });
+            });
+
+            // --- AI-Powered Personalization (Simulated) ---
+            const headlines = [
+                {
+                    headline: 'Streamline Your Workflow with <span class="gradient-bg text-transparent bg-clip-text hero-bg-animation">Launchpad</span>',
+                    subheadline: 'The intelligent platform that learns your habits and automates the rest.'
+                },
+                {
+                    headline: 'Unlock Your Team\'s Full Potential with <span class="gradient-bg text-transparent bg-clip-text hero-bg-animation">Launchpad</span>',
+                    subheadline: 'The ultimate collaboration tool for projects of any size and complexity.'
+                },
+                {
+                    headline: 'Achieve More in Less Time with <span class="gradient-bg text-transparent bg-clip-text hero-bg-animation">Launchpad</span>',
+                    subheadline: 'Our smart productivity suite is built to help you focus on what truly matters.'
+                }
+            ];
+            
+            // Function to randomly select a headline on page load
+            const setDynamicContent = () => {
+                const randomIndex = Math.floor(Math.random() * headlines.length);
+                const chosenHeadline = headlines[randomIndex];
+                dynamicHeadline.innerHTML = chosenHeadline.headline;
+                dynamicSubheadline.textContent = chosenHeadline.subheadline;
+            };
+
+            setDynamicContent();
+
+            // --- Chatbot Logic (Now interactive with API call) ---
+            chatbotToggle.addEventListener('click', () => {
+                chatbotModal.classList.toggle('hidden');
+            });
+            chatbotClose.addEventListener('click', () => {
+                chatbotModal.classList.add('hidden');
+            });
+
+            // Function to add a message to the chatbot UI
+            const addMessage = (text, isUser = false) => {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `flex ${isUser ? 'justify-end' : 'justify-start'}`;
+                messageDiv.innerHTML = `
+                    <div class="p-3 rounded-lg max-w-[75%] ${isUser ? 'bg-purple-600 text-white' : 'bg-gray-200 text-gray-800'}">
+                        <p>${text}</p>
+                    </div>
+                `;
+                chatbotMessages.appendChild(messageDiv);
+                chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+                return messageDiv; // Return the created element for easy reference
+            };
+
+            // Function to send a message to the AI and get a response
+            const sendMessageToAI = async (message) => {
+                const loadingMessageEl = addMessage('...', false);
+                
+                const apiKey = ""; 
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+
+                const payload = {
+                    contents: [
+                        { parts: [{ text: `You are a helpful and friendly SaaS assistant for a productivity app called Launchpad. Your goal is to answer questions about the app's features, pricing, and benefits. Be concise and conversational. The user's query is: "${message}"` }] }
+                    ]
+                };
+
+                try {
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`API error: ${response.statusText}`);
+                    }
+
+                    const result = await response.json();
+                    const botMessage = result?.candidates?.[0]?.content?.parts?.[0]?.text;
+
+                    if (botMessage) {
+                        addMessage(botMessage, false);
+                    } else {
+                        addMessage("Sorry, I couldn't get a response. Please try again.", false);
+                    }
+                } catch (error) {
+                    console.error("Gemini API Error:", error);
+                    addMessage("Oops! Something went wrong. Please try again later.", false);
+                } finally {
+                    // Remove the loading message whether the request succeeded or failed
+                    if (loadingMessageEl) {
+                        loadingMessageEl.remove();
+                    }
+                }
+            };
+            
+            const handleUserInput = () => {
+                const userMessage = userInput.value.trim();
+                if (userMessage) {
+                    addMessage(userMessage, true);
+                    userInput.value = '';
+                    sendMessageToAI(userMessage);
+                }
+            };
+
+            userInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    handleUserInput();
+                }
+            });
+
+            sendButton.addEventListener('click', handleUserInput);
+            
+            // Initial message from the assistant
+            addMessage("Hello! I'm your AI Launchpad assistant. How can I help you today? Ask me about our features, pricing, or anything else about Launchpad.");
+            // --- End of Chatbot Logic ---
+
+            // --- Form Handling ---
+            
+            // Simple client-side email validation
+            const validateEmail = (email) => {
+                const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                return re.test(String(email).toLowerCase());
+            };
+            
+            // Reusable function to show form messages
+            function showMessage(element, message, colorClass) {
+                element.textContent = message;
+                element.className = `text-sm font-medium text-center transition-all duration-300 opacity-100 ${colorClass}`;
+            }
+
+            // Sign-up Form Logic
+            signupForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const name = document.getElementById('name').value;
+                const email = document.getElementById('email').value;
+
+                if (!name || !email) {
+                    showMessage(formMessage, 'Please fill in all fields.', 'text-red-500');
+                    return;
+                }
+                if (!validateEmail(email)) {
+                    showMessage(formMessage, 'Please enter a valid email address.', 'text-red-500');
+                    return;
+                }
+
+                showMessage(formMessage, 'Signing you up...', 'text-indigo-500');
+
+                setTimeout(() => {
+                    userNameSpan.textContent = name;
+                    showSection(dashboardSection);
+                    signupForm.reset();
+                    showMessage(formMessage, '', ''); // Clear message
+                }, 1000);
+            });
+            
+            // Contact Form Logic
+            contactForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const name = document.getElementById('contact-name').value;
+                const email = document.getElementById('contact-email').value;
+                const message = document.getElementById('contact-message').value;
+
+                if (!name || !email || !message) {
+                    showMessage(contactFormMessage, 'Please fill in all fields.', 'text-red-500');
+                    return;
+                }
+                if (!validateEmail(email)) {
+                    showMessage(contactFormMessage, 'Please enter a valid email address.', 'text-red-500');
+                    return;
+                }
+
+                showMessage(contactFormMessage, 'Sending message...', 'text-indigo-500');
+
+                // Simulate form submission
+                setTimeout(() => {
+                    document.getElementById('contact-form-container').classList.add('hidden');
+                    document.getElementById('contact-thank-you').classList.remove('hidden');
+                    contactForm.reset();
+                    showMessage(contactFormMessage, '', '');
+                }, 1000);
+            });
+
+            logoutButton.addEventListener('click', () => {
+                showSection(landingSection);
+                signupForm.reset();
+                formMessage.textContent = '';
+            });
+
+            contactGoBackButton.addEventListener('click', () => {
+                showSection(landingSection);
+                document.getElementById('contact-form-container').classList.remove('hidden');
+                document.getElementById('contact-thank-you').classList.add('hidden');
+            });
+
+
+            // Intersection Observer for scroll-triggered animations
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+
+            document.querySelectorAll('.fade-in-up').forEach(element => {
+                observer.observe(element);
+            });
+
+            // --- Canvas Demo Animation Logic ---
+            const canvas = document.getElementById('demo-canvas');
+            const ctx = canvas.getContext('2d');
+            const particles = [];
+            const connections = [];
+            const numParticles = 40;
+
+            let canvasWidth = canvas.parentNode.clientWidth;
+            let canvasHeight = canvasWidth / (16 / 9); // Maintain 16:9 aspect ratio
+
+            // Resize canvas on window resize
+            const resizeCanvas = () => {
+                canvasWidth = canvas.parentNode.clientWidth;
+                canvasHeight = canvasWidth / (16 / 9);
+                canvas.width = canvasWidth;
+                canvas.height = canvasHeight;
+            };
+
+            window.addEventListener('resize', resizeCanvas);
+            resizeCanvas(); // Initial resize
+
+            class Particle {
+                constructor(x, y) {
+                    this.x = x;
+                    this.y = y;
+                    this.vx = (Math.random() - 0.5) * 0.5;
+                    this.vy = (Math.random() - 0.5) * 0.5;
+                    this.radius = 2;
+                    this.color = '#ffffff';
+                }
+
+                update() {
+                    this.x += this.vx;
+                    this.y += this.vy;
+
+                    // Bounce off walls
+                    if (this.x < 0 || this.x > canvasWidth) this.vx *= -1;
+                    if (this.y < 0 || this.y > canvasHeight) this.vy *= -1;
+                }
+
+                draw() {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = this.color;
+                    ctx.fill();
+                }
+            }
+
+            // Create particles
+            const createParticles = () => {
+                particles.length = 0; // Clear existing particles
+                for (let i = 0; i < numParticles; i++) {
+                    particles.push(new Particle(Math.random() * canvasWidth, Math.random() * canvasHeight));
+                }
+            };
+
+            createParticles();
+
+            // Handle window resize event to recreate particles
+            window.addEventListener('resize', () => {
+                resizeCanvas();
+                createParticles();
+            });
+
+            const animate = () => {
+                ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+                ctx.fillStyle = '#1f2937'; // Background color of the demo area
+                ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+
+                // Draw connections between nearby particles
+                for (let i = 0; i < particles.length; i++) {
+                    for (let j = i + 1; j < particles.length; j++) {
+                        const dist = Math.sqrt(Math.pow(particles[i].x - particles[j].x, 2) + Math.pow(particles[i].y - particles[j].y, 2));
+                        if (dist < 100) {
+                            ctx.beginPath();
+                            ctx.moveTo(particles[i].x, particles[i].y);
+                            ctx.lineTo(particles[j].x, particles[j].y);
+                            ctx.strokeStyle = `rgba(255, 255, 255, ${1 - dist / 100})`;
+                            ctx.stroke();
+                        }
+                    }
+                }
+
+                particles.forEach(p => {
+                    p.update();
+                    p.draw();
+                });
+
+                requestAnimationFrame(animate);
+            };
+
+            animate();
+
+        });
+    </script>
+</body>
+</html>
